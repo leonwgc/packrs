@@ -76,66 +76,64 @@ const getBuildConfig = ({
   banner = 'project',
   reactRuntime = 'automatic',
   rsConfig,
-}: Params): RsbuildConfig => {
-  rsConfig = { ...rsConfig, mode: dev ? 'development' : 'production' };
-  return {
-    source: {
-      entry: {
-        index: getProjectPath(index),
-      },
+}: Params): RsbuildConfig => ({
+  mode: dev ? 'development' : 'production',
+  source: {
+    entry: {
+      index: getProjectPath(index),
     },
-    output: {
-      cleanDistPath: true,
-      distPath: {
-        root: getProjectPath(dist),
-      },
+  },
+  output: {
+    cleanDistPath: true,
+    distPath: {
+      root: getProjectPath(dist),
     },
-    plugins: [
-      pluginReact({
-        swcReactOptions: {
-          development: dev,
-          refresh: dev,
-          runtime: reactRuntime,
-        },
-      }),
-      sass ? pluginSass() : undefined,
-      less
-        ? pluginLess({
-            lessLoaderOptions: {
-              lessOptions: {
-                javascriptEnabled: true,
-              },
+  },
+  plugins: [
+    pluginReact({
+      swcReactOptions: {
+        development: dev,
+        refresh: dev,
+        runtime: reactRuntime,
+      },
+    }),
+    sass ? pluginSass() : undefined,
+    less
+      ? pluginLess({
+          lessLoaderOptions: {
+            lessOptions: {
+              javascriptEnabled: true,
             },
-          })
-        : undefined,
-    ].filter(Boolean),
-    tools: {
-      rspack: (config, { env }) => {
-        if (dev) {
-          config.devtool = 'cheap-module-source-map';
-        } else {
-          config.devtool = false;
-        }
-        return config;
-      },
-    },
-    // Options for local development.
-    dev: dev
-      ? {
-          progressBar: {
-            id: banner,
           },
-          hmr: true,
-          cliShortcuts: false,
-          ...(rsConfig.dev || {}),
-        }
+        })
       : undefined,
-    server: {
-      port,
+  ].filter(Boolean),
+  tools: {
+    rspack: (config, { env }) => {
+      if (dev) {
+        config.devtool = 'cheap-module-source-map';
+      } else {
+        config.devtool = false;
+      }
+      return config;
     },
-    ...rsConfig,
-  };
-};
+  },
+  // Options for local development.
+  dev: dev
+    ? {
+        progressBar: {
+          id: banner,
+        },
+        hmr: true,
+        cliShortcuts: false,
+        ...(rsConfig.dev || {}),
+      }
+    : undefined,
+  server: {
+    port,
+  },
+  ...rsConfig,
+});
 
 /**
  * @description start a rspack development server
