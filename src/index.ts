@@ -1,4 +1,4 @@
-import type { RsbuildConfig } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildEntryDescription } from '@rsbuild/core';
 import { createRsbuild } from '@rsbuild/core';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
@@ -26,7 +26,7 @@ type Params = {
   /**
    * The entry file for the project. relative path to project e.g. ./src/index.tsx
    */
-  index: string;
+  index: string | string[] | (RsbuildEntryDescription & { html?: boolean });
   /**
    * The output directory for the project. relative path to project e.g. ./dist
    */
@@ -80,13 +80,13 @@ const getBuildConfig = ({
   mode: dev ? 'development' : 'production',
   source: {
     entry: {
-      index: getProjectPath(index),
+      index,
     },
   },
   output: {
     cleanDistPath: true,
     distPath: {
-      root: getProjectPath(dist),
+      root: dist,
     },
   },
   plugins: [
@@ -112,6 +112,7 @@ const getBuildConfig = ({
     rspack: (config, { env }) => {
       if (dev) {
         config.devtool = 'cheap-module-source-map';
+        config.stats = 'errors-only';
       } else {
         config.devtool = false;
       }
@@ -130,6 +131,7 @@ const getBuildConfig = ({
       }
     : undefined,
   server: {
+    strictPort: true,
     port,
   },
   ...rsConfig,

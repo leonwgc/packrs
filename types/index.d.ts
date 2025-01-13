@@ -1,4 +1,4 @@
-import type { RsbuildConfig } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildEntryDescription } from '@rsbuild/core';
 type Params = {
     dev?: boolean;
     less: boolean;
@@ -6,7 +6,9 @@ type Params = {
     /**
      * The entry file for the project. relative path to project e.g. ./src/index.tsx
      */
-    index: string;
+    index: string | string[] | (RsbuildEntryDescription & {
+        html?: boolean;
+    });
     /**
      * The output directory for the project. relative path to project e.g. ./dist
      */
