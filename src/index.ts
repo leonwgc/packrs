@@ -1,19 +1,8 @@
-import type { RsbuildConfig, RsbuildEntryDescription } from '@rsbuild/core';
-import { createRsbuild } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildEntryDescription, ProxyConfig } from '@rsbuild/core';
+import { createRsbuild, mergeRsbuildConfig } from '@rsbuild/core';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
-import path from 'path';
-
-/**
- * Gets the absolute path of the project directory.
- *
- * @param dir - The relative directory path. Default is './'.
- * @returns The absolute path of the project directory.
- */
-const getProjectPath = (dir = './'): string => {
-  return path.join(process.cwd(), dir);
-};
 
 type Params = {
   // Indicates if the build is in development mode.
@@ -32,9 +21,14 @@ type Params = {
    */
   dist: string;
   /**
-   * The port for the dev server., default:1000
+   * The port for the dev server., default: 3000
    */
   port?: number;
+
+  /**
+   * The proxy setting for the dev server.
+   */
+  proxy?: ProxyConfig;
   /**
    * The banner text for the project.
    */
@@ -75,67 +69,77 @@ const getBuildConfig = ({
   port,
   banner = 'project',
   reactRuntime = 'automatic',
+  proxy,
   rsConfig,
-}: Params): RsbuildConfig => ({
-  mode: dev ? 'development' : 'production',
-  source: {
-    entry: {
-      index,
-    },
-  },
-  output: {
-    cleanDistPath: true,
-    distPath: {
-      root: dist,
-    },
-  },
-  plugins: [
-    pluginReact({
-      swcReactOptions: {
-        development: dev,
-        refresh: dev,
-        runtime: reactRuntime,
-      },
-    }),
-    sass ? pluginSass() : undefined,
-    less
-      ? pluginLess({
-          lessLoaderOptions: {
-            lessOptions: {
-              javascriptEnabled: true,
-            },
-          },
-        })
-      : undefined,
-  ].filter(Boolean),
-  tools: {
-    rspack: (config, { env }) => {
-      if (dev) {
-        config.devtool = 'cheap-module-source-map';
-        config.stats = 'errors-only';
-      } else {
-        config.devtool = false;
-      }
-      return config;
-    },
-  },
-  // Options for local development.
-  dev: dev
-    ? {
-        progressBar: {
-          id: banner,
+}: Params): RsbuildConfig =>
+  mergeRsbuildConfig(
+    {
+      mode: dev ? 'development' : 'production',
+      source: {
+        entry: {
+          index,
         },
-        hmr: true,
-        cliShortcuts: false,
-        ...(rsConfig.dev || {}),
-      }
-    : undefined,
-  server: {
-    strictPort: true,
-    port,
-  },
-  ...rsConfig,
-});
+      },
+      output: {
+        cleanDistPath: true,
+        distPath: {
+          root: dist,
+        },
+      },
+      plugins: [
+        pluginReact({
+          swcReactOptions: {
+            development: dev,
+            refresh: dev,
+            runtime: reactRuntime,
+          },
+        }),
+        sass ? pluginSass() : undefined,
+        less
+          ? pluginLess({
+              lessLoaderOptions: {
+                lessOptions: {
+                  javascriptEnabled: true,
+                },
+              },
+            })
+          : undefined,
+      ].filter(Boolean),
+      tools: {
+        rspack: (config, { env }) => {
+          if (dev) {
+            config.devtool = 'cheap-module-source-map';
+            config.stats = 'errors-only';
+          } else {
+            config.devtool = false;
+          }
+          return config;
+        },
+      },
+      // Options for local development.
+      dev: dev
+        ? {
+            progressBar: {
+              id: banner,
+            },
+            hmr: true,
+            client: {
+              protocol: 'ws',
+              host: '127.0.0.1',
+              port: '<port>',
+            },
+            cliShortcuts: false,
+            ...(rsConfig.dev || {}),
+          }
+        : undefined,
+      server: {
+        strictPort: true,
+        port,
+        proxy,
+      },
+    },
+    rsConfig
+  );
 
 /**
  * @description start a rspack development server
@@ -145,6 +149,7 @@ const getBuildConfig = ({
  * @param {string} [index] - path to entry file
  * @param {string} [dist] - path to output directory
  * @param {number} [port] - port to use for the development server
+ * @param {ProxyConfig} [proxy] - proxy for the development server
  * @param {string} [banner] - name to use for the development server
  * @param {RsbuildConfig} [rsConfig] - additional configuration for rspack
  */
@@ -153,8 +158,9 @@ export async function run({
   sass = true,
   index = '',
   dist = './dist',
-  port = 1000,
+  port = 3000,
   reactRuntime,
+  proxy,
   banner = 'project',
   rsConfig = {},
 }: Params) {
@@ -167,6 +173,7 @@ export async function run({
       dist,
       port,
       reactRuntime,
+      proxy,
       banner,
       rsConfig,
     }),

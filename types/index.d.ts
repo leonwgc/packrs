@@ -1,4 +1,4 @@
-import type { RsbuildConfig, RsbuildEntryDescription } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildEntryDescription, ProxyConfig } from '@rsbuild/core';
 type Params = {
     dev?: boolean;
     less: boolean;
@@ -14,9 +14,13 @@ type Params = {
      */
     dist: string;
     /**
-     * The port for the dev server., default:1000
+     * The port for the dev server., default: 3000
      */
     port?: number;
+    /**
+     * The proxy setting for the dev server.
+     */
+    proxy?: ProxyConfig;
     /**
      * The banner text for the project.
      */
@@ -39,10 +43,11 @@ type Params = {
  * @param {string} [index] - path to entry file
  * @param {string} [dist] - path to output directory
  * @param {number} [port] - port to use for the development server
+ * @param {ProxyConfig} [proxy] - proxy for the development server
  * @param {string} [banner] - name to use for the development server
  * @param {RsbuildConfig} [rsConfig] - additional configuration for rspack
  */
-export declare function run({ less, sass, index, dist, port, reactRuntime, banner, rsConfig, }: Params): Promise<void>;
+export declare function run({ less, sass, index, dist, port, reactRuntime, proxy, banner, rsConfig, }: Params): Promise<void>;
 /**
  * @description Executes the build process for the project.
  * @param {boolean} [less] - Whether to include Less support.
