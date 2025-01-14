@@ -143,3 +143,5 @@ type Params = {
   rsConfig?: RsbuildConfig;
 };
 ```
+
+ for details configuration please refer to [rsbuild online documentation](https://rsbuild.dev/config/index)
