@@ -90,7 +90,7 @@ const getBuildConfig = ({
   index,
   dist = './dist',
   port,
-  banner = 'project',
+  banner = '',
   reactRuntime = 'automatic',
   proxy,
   rsConfig,
@@ -129,21 +129,20 @@ const getBuildConfig = ({
           : undefined,
       ].filter(Boolean),
       tools: {
-        rspack: (config, { env }) => {
-          if (dev) {
-            config.devtool = 'cheap-module-source-map';
-            config.stats = 'errors-only';
-          } else {
-            config.devtool = false;
-          }
-          return config;
+        // tools.bundlerChain will be executed earlier than tools.rspack, so it will be overridden by tools.rspack.
+        bundlerChain: (chain, { env }) => {
+          chain.stats('errors-only');
+        },
+        rspack: {
+          devtool: dev ? 'cheap-module-source-map' : false,
         },
       },
-      // Options for local development.
       dev: {
-        progressBar: {
-          id: banner,
-        },
+        progressBar: banner
+          ? {
+              id: banner,
+            }
+          : false,
         hmr: true,
         client: {
           protocol: 'ws',
@@ -180,7 +179,7 @@ export async function run({
   port = 3000,
   reactRuntime,
   proxy,
-  banner = 'web',
+  banner = '',
   rsConfig = {},
 }: Params) {
   const rsbuildInstance = await createRsbuild({
