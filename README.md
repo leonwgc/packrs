@@ -9,14 +9,12 @@ packrs is a powerful build tool that leverages Rust-based rsbuild as its core to
 - **Flexible Configuration**: Easily customize builds with plugins and scripts.
 - **Node.js API Only**: packrs only supports Node.js API usage.
 
-##  Why only support Node.js API?
+## Why only support Node.js API?
 
- * Because i want to provide a flexible and customizable API for developers.
- * With the Node.js API, you can use the full power of rsbuild in your project,
- * including the ability to customize the build process and create custom plugins.
- * If i were to support the command line interface, i would have to limit the customization options and make assumptions about the project structure, which would limit the flexibility of the API.
-
-
+Because i want to provide a flexible and customizable API for users.
+With the Node.js API, you can use the full power of rsbuild in your project,
+including the ability to customize the build process and create custom plugins.
+If i were to support the command line interface, i would have to limit the customization options and make assumptions about the project structure, which would limit the flexibility of the API.
 
 To install packrs, run the following command:
 
