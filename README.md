@@ -1,3 +1,10 @@
+## Installation
+
+```bash
+npm install packrs --save-dev
+yarn add -D packrs
+```
+
 ## Overview
 
 packrs is a Rust-based build tool that streamlines development for React projects. It leverages rsbuild to optimize and simplify the build process.
@@ -9,20 +16,9 @@ packrs is a Rust-based build tool that streamlines development for React project
 - **Customizable**: Tailor builds with plugins and scripts.
 - **Node.js API**: Exclusively supports Node.js API usage.
 
-## Why only support Node.js API?
-
-To offer a flexible and customizable API, packrs supports only the Node.js API. This allows full use of rsbuild's capabilities, enabling custom build processes and plugins. A CLI would restrict customization and require assumptions about project structure, reducing API flexibility.
-
-To install packrs, run the following command:
-
-```bash
-npm install packrs --save-dev
-yarn add -D packrs
-```
-
 ## Usage
 
-### Development Mode
+#### Development Mode
 
 ```typescript
 const { run } = require('packrs');
@@ -35,7 +31,7 @@ run({
 
 This will continuously watch for changes and rebuild the project automatically.
 
-### Building mode
+#### Building mode
 
 ```typescript
 const { build } = require('packrs');
@@ -46,7 +42,7 @@ build({
 });
 ```
 
-### a more realistic config 
+#### a more realistic config
 
 ```js
 const { run } = require('packrs');
@@ -77,7 +73,11 @@ run({
 
 This command will execute the build process using rsbuild and output the files to the designated directory.
 
-### Type definitons for run and build api
+## Why only support Node.js API?
+
+To offer a flexible and customizable API, packrs supports only the Node.js API. This allows full use of rsbuild's capabilities, enabling custom build processes and plugins. A CLI would restrict customization and require assumptions about project structure, reducing API flexibility.
+
+## Type definitons for run and build api
 
 ```typescript
 /**
