@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "rsbuild for react",
   "main": "./lib/index.js",
+  "module": "./lib/index.mjs",
   "typings": "./types/index.d.ts",
   "scripts": {
     "dev": "tsup --watch",

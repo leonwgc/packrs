@@ -19,29 +19,30 @@ import type { ProxyConfig, RsbuildConfig, RsbuildEntryDescription } from '@rsbui
 type Params = {
     /**
      * Indicates if the build is in development mode.
-     * The default is `true`.
      */
     dev?: boolean;
     /**
      * Indicates if Less should be used.
      * The default is `true`.
      */
-    less: boolean;
+    less?: boolean;
     /**
      * Indicates if Sass should be used.
      * The default is `true`.
      */
-    sass: boolean;
+    sass?: boolean;
     /**
-     * The entry file for the project. relative path to project e.g. ./src/index.tsx
+     * The entry file for the project. relative path to project.
+     * The default is `./src/index`.
      */
-    index: string | string[] | (RsbuildEntryDescription & {
+    index?: string | string[] | (RsbuildEntryDescription & {
         html?: boolean;
     });
     /**
-     * The output directory for the project. relative path to project e.g. ./dist
+     * The output directory for the project.
+     * The default is `./dist`.
      */
-    dist: string;
+    dist?: string;
     /**
      * The port for the dev server., default: 3000
      */
@@ -51,7 +52,7 @@ type Params = {
      */
     proxy?: ProxyConfig;
     /**
-     * The banner text for the project.
+     * The banner text.
      */
     banner?: string;
     /**
@@ -60,30 +61,18 @@ type Params = {
      */
     reactRuntime?: 'automatic' | 'classic';
     /**
-     * Rsbuild configuration
+     * Rsbuild configuration. please refer to https://rsbuild.dev/config/
      */
     rsConfig?: RsbuildConfig;
 };
 /**
- * @description Starts a rspack development server with given configurations.
- * @param {boolean} [less=true] - Whether to support LESS in the project.
- * @param {boolean} [sass=true] - Whether to support Sass in the project.
- * @param {string} [index=''] - Path to the entry file.
- * @param {string} [dist='./dist'] - Path to the output directory.
- * @param {number} [port=3000] - Port to use for the development server.
- * @param {ProxyConfig} [proxy] - Proxy configuration for the development server.
- * @param {string} [banner='web'] - Name to use for the development server.
- * @param {RsbuildConfig} [rsConfig={}] - Additional configuration for rspack.
+ * Executes the dev process for the project.
+ * @param {Params} [config={}] - Configuration parameters for the dev process.
  */
-export declare function run({ less, sass, index, dist, port, reactRuntime, proxy, banner, rsConfig, }: Params): Promise<void>;
+export declare function run(config: Params): Promise<void>;
 /**
- * @description Executes the build process for the project.
- * @param {boolean} [less=true] - Whether to support LESS in the project.
- * @param {boolean} [sass=true] - Whether to support Sass in the project.
- * @param {string} [index=''] - Path to the entry file.
- * @param {string} [dist='./dist'] - Path to the output directory.
- * @param {string} [reactRuntime='automatic'] - JSX runtime to use.
- * @param {RsbuildConfig} [rsConfig={}] - Additional configuration for rspack.
+ * Executes the build process for the project.
+ * @param {Params} [config={}] - Configuration parameters for the build process.
  */
-export declare function build({ less, sass, index, dist, reactRuntime, rsConfig, }: Params): Promise<void>;
+export declare function build(config: Params): Promise<void>;
 export {};

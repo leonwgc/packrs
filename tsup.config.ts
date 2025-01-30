@@ -6,5 +6,5 @@ export default defineConfig((o) => ({
   clean: true,
   minify: !o.watch,
   outDir: 'lib',
-  format: ['cjs'],
+  format: ['cjs', 'esm'],
 }));

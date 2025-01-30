@@ -24,7 +24,6 @@ import { pluginSass } from '@rsbuild/plugin-sass';
 type Params = {
   /**
    * Indicates if the build is in development mode.
-   * The default is `true`.
    */
   dev?: boolean;
 
@@ -32,23 +31,25 @@ type Params = {
    * Indicates if Less should be used.
    * The default is `true`.
    */
-  less: boolean;
+  less?: boolean;
 
   /**
    * Indicates if Sass should be used.
    * The default is `true`.
    */
-  sass: boolean;
+  sass?: boolean;
 
   /**
-   * The entry file for the project. relative path to project e.g. ./src/index.tsx
+   * The entry file for the project. relative path to project.
+   * The default is `./src/index`.
    */
-  index: string | string[] | (RsbuildEntryDescription & { html?: boolean });
+  index?: string | string[] | (RsbuildEntryDescription & { html?: boolean });
 
   /**
-   * The output directory for the project. relative path to project e.g. ./dist
+   * The output directory for the project.
+   * The default is `./dist`.
    */
-  dist: string;
+  dist?: string;
 
   /**
    * The port for the dev server., default: 3000
@@ -61,7 +62,7 @@ type Params = {
   proxy?: ProxyConfig;
 
   /**
-   * The banner text for the project.
+   * The banner text.
    */
   banner?: string;
 
@@ -72,7 +73,7 @@ type Params = {
   reactRuntime?: 'automatic' | 'classic';
 
   /**
-   * Rsbuild configuration
+   * Rsbuild configuration. please refer to https://rsbuild.dev/config/
    */
   rsConfig?: RsbuildConfig;
 };
@@ -84,14 +85,14 @@ type Params = {
  * @returns {RsbuildConfig} The rsbuild configuration object.
  */
 const getBuildConfig = ({
-  dev = true,
-  less = true,
-  sass = true,
+  dev,
+  less,
+  sass,
   index,
-  dist = './dist',
+  dist,
   port,
-  banner = '',
-  reactRuntime = 'automatic',
+  banner,
+  reactRuntime,
   proxy,
   rsConfig,
 }: Params): RsbuildConfig =>
@@ -130,7 +131,7 @@ const getBuildConfig = ({
       ].filter(Boolean),
       tools: {
         // tools.bundlerChain will be executed earlier than tools.rspack, so it will be overridden by tools.rspack.
-        bundlerChain: (chain, { env }) => {
+        bundlerChain: (chain) => {
           chain.stats('errors-only');
         },
         rspack: {
@@ -161,39 +162,27 @@ const getBuildConfig = ({
   );
 
 /**
- * @description Starts a rspack development server with given configurations.
- * @param {boolean} [less=true] - Whether to support LESS in the project.
- * @param {boolean} [sass=true] - Whether to support Sass in the project.
- * @param {string} [index=''] - Path to the entry file.
- * @param {string} [dist='./dist'] - Path to the output directory.
- * @param {number} [port=3000] - Port to use for the development server.
- * @param {ProxyConfig} [proxy] - Proxy configuration for the development server.
- * @param {string} [banner='web'] - Name to use for the development server.
- * @param {RsbuildConfig} [rsConfig={}] - Additional configuration for rspack.
+ * Default parameters for the `build` and `run` functions.
  */
-export async function run({
-  less = true,
-  sass = true,
-  index = '',
-  dist = './dist',
-  port = 3000,
-  reactRuntime,
-  proxy,
-  banner = '',
-  rsConfig = {},
-}: Params) {
+const defaultParams: Params = {
+  less: true,
+  sass: true,
+  index: './src/index',
+  dist: './dist',
+  reactRuntime: 'automatic',
+  rsConfig: {},
+};
+
+/**
+ * Executes the dev process for the project.
+ * @param {Params} [config={}] - Configuration parameters for the dev process.
+ */
+export async function run(config: Params) {
   const rsbuildInstance = await createRsbuild({
     rsbuildConfig: getBuildConfig({
+      ...defaultParams,
+      ...config,
       dev: true,
-      less,
-      sass,
-      index,
-      dist,
-      port,
-      reactRuntime,
-      proxy,
-      banner,
-      rsConfig,
     }),
   });
 
@@ -201,32 +190,15 @@ export async function run({
 }
 
 /**
- * @description Executes the build process for the project.
- * @param {boolean} [less=true] - Whether to support LESS in the project.
- * @param {boolean} [sass=true] - Whether to support Sass in the project.
- * @param {string} [index=''] - Path to the entry file.
- * @param {string} [dist='./dist'] - Path to the output directory.
- * @param {string} [reactRuntime='automatic'] - JSX runtime to use.
- * @param {RsbuildConfig} [rsConfig={}] - Additional configuration for rspack.
+ * Executes the build process for the project.
+ * @param {Params} [config={}] - Configuration parameters for the build process.
  */
-export async function build({
-  less = true,
-  sass = true,
-  index = '',
-  dist = './dist',
-  reactRuntime,
-  rsConfig = {},
-}: Params) {
+export async function build(config: Params) {
   const rsbuildInstance = await createRsbuild({
     rsbuildConfig: getBuildConfig({
+      ...defaultParams,
+      ...config,
       dev: false,
-      less,
-      sass,
-      index,
-      dist,
-      reactRuntime,
-      banner: 'build',
-      rsConfig,
     }),
   });
 
