@@ -46,6 +46,35 @@ build({
 });
 ```
 
+### a more realistic config 
+
+```js
+const { run } = require('packrs');
+
+run({
+  banner: 'build',
+  index: ['eventsource-polyfill', './src/index'],
+  dist: './dist',
+  port: 9001,
+  proxy: [
+    {
+      context: ['/down-backend-qa'],
+      target: 'https://google.qa.xxx-test.com/',
+      changeOrigin: true,
+    },
+  ],
+  rsConfig: {
+    html: {
+      template: './index.html',
+      favicon: './src/assets/icons/favicon.ico',
+    },
+    resolve: {
+      aliasStrategy: 'prefer-tsconfig', // alias defined in tsconfig's paths
+    },
+  },
+});
+```
+
 This command will execute the build process using rsbuild and output the files to the designated directory.
 
 ### Type definitons for run and build api
