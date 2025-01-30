@@ -31,7 +31,7 @@ run({
 
 This will continuously watch for changes and rebuild the project automatically.
 
-#### Building mode
+#### Production mode
 
 ```typescript
 const { build } = require('packrs');
@@ -54,7 +54,7 @@ run({
   port: 9001,
   proxy: [
     {
-      context: ['/down-backend-qa'],
+      context: ['/api'],
       target: 'https://google.qa.xxx-test.com/',
       changeOrigin: true,
     },
@@ -77,7 +77,7 @@ This command will execute the build process using rsbuild and output the files t
 
 To offer a flexible and customizable API, packrs supports only the Node.js API. This allows full use of rsbuild's capabilities, enabling custom build processes and plugins. A CLI would restrict customization and require assumptions about project structure, reducing API flexibility.
 
-## Type definitons for run and build api
+## Type definitons
 
 ```typescript
 /**
