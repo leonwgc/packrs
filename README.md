@@ -1,25 +1,23 @@
 ## Overview
 
-packrs is a powerful build tool that leverages Rust-based rsbuild as its core to provide a seamless development experience for React projects. It is designed to optimize and simplify the build process, ensuring high performance and ease of use.
+packrs is a Rust-based build tool that streamlines development for React projects. It leverages rsbuild to optimize and simplify the build process.
 
 ## Features
 
-- **Rust-based Core**: Utilizes rsbuild for efficient and fast builds.
-- **React Integration**: Out-of-the-box support for React SPA projects.
-- **Flexible Configuration**: Easily customize builds with plugins and scripts.
-- **Node.js API Only**: packrs only supports Node.js API usage.
+- **Efficient Builds**: Powered by rsbuild for fast performance.
+- **React Support**: Built-in support for React SPAs.
+- **Customizable**: Tailor builds with plugins and scripts.
+- **Node.js API**: Exclusively supports Node.js API usage.
 
 ## Why only support Node.js API?
 
-Because i want to provide a flexible and customizable API for users.
-With the Node.js API, you can use the full power of rsbuild in your project,
-including the ability to customize the build process and create custom plugins.
-If i were to support the command line interface, i would have to limit the customization options and make assumptions about the project structure, which would limit the flexibility of the API.
+To offer a flexible and customizable API, packrs supports only the Node.js API. This allows full use of rsbuild's capabilities, enabling custom build processes and plugins. A CLI would restrict customization and require assumptions about project structure, reducing API flexibility.
 
 To install packrs, run the following command:
 
 ```bash
 npm install packrs --save-dev
+yarn add -D packrs
 ```
 
 ## Usage
@@ -28,28 +26,10 @@ npm install packrs --save-dev
 
 ```typescript
 const { run } = require('packrs');
-const path = require('path');
 
 run({
-  banner: 'react-playground',
   index: './src/index',
-  dist: './dist/dist',
-  port: 9100,
-  rsConfig: {
-    html: {
-      title: 'react-playground',
-      meta: {
-        description: 'description',
-      },
-      template: './index.html',
-    },
-    resolve: {
-      aliasStrategy: 'prefer-alias',
-      alias: {
-        '~': path.resolve(__dirname, './src'),
-      },
-    },
-  },
+  dist: './dist',
 });
 ```
 
@@ -59,27 +39,10 @@ This will continuously watch for changes and rebuild the project automatically.
 
 ```typescript
 const { build } = require('packrs');
-const path = require('path');
 
 build({
-  banner: 'react-playground',
   index: './src/index',
-  dist: './dist/dist',
-  rsConfig: {
-    html: {
-      title: 'react-playground',
-      meta: {
-        description: 'description',
-      },
-      template: './index.html',
-    },
-    resolve: {
-      aliasStrategy: 'prefer-alias',
-      alias: {
-        '~': path.resolve(__dirname, './src'),
-      },
-    },
-  },
+  dist: './dist',
 });
 ```
 
@@ -92,11 +55,6 @@ This command will execute the build process using rsbuild and output the files t
  * Parameters for the `build` and `run` functions.
  */
 type Params = {
-  /**
-   * Indicates if the build is in development mode.
-   * The default is `true`.
-   */
-  dev?: boolean;
   /**
    * Indicates if Less should be used.
    * The default is `true`.
@@ -144,4 +102,4 @@ type Params = {
 };
 ```
 
- for details configuration please refer to [rsbuild online documentation](https://rsbuild.dev/config/index)
+for details configuration please refer to [rsbuild online documentation](https://rsbuild.dev/config/index)
