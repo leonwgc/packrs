@@ -52,7 +52,8 @@ type Params = {
   dist?: string;
 
   /**
-   * The port for the dev server., default: 3000
+   * The port for the dev server.
+   * The default is 3000
    */
   port?: number;
 
@@ -68,7 +69,7 @@ type Params = {
 
   /**
    * jsx runtime,  React version before 16.14.0，pls set runtime 'classic'
-   * default:automatic
+   * The default is automatic
    */
   reactRuntime?: 'automatic' | 'classic';
 

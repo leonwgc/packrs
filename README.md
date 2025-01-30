@@ -80,54 +80,51 @@ To offer a flexible and customizable API, packrs supports only the Node.js API. 
 ## Type definitons
 
 ```typescript
-/**
- * Parameters for the `build` and `run` functions.
- */
 type Params = {
-  /**
-   * Indicates if Less should be used.
-   * The default is `true`.
-   */
-  less: boolean;
-  /**
-   * Indicates if Sass should be used.
-   * The default is `true`.
-   */
-  sass: boolean;
-  /**
-   * The entry file for the project. relative path to project e.g. ./src/index.tsx
-   */
-  index:
-    | string
-    | string[]
-    | (RsbuildEntryDescription & {
+    /**
+     * Indicates if Less should be used.
+     * The default is `true`.
+     */
+    less?: boolean;
+    /**
+     * Indicates if Sass should be used.
+     * The default is `true`.
+     */
+    sass?: boolean;
+    /**
+     * The entry file for the project. relative path to project.
+     * The default is `./src/index`.
+     */
+    index?: string | string[] | (RsbuildEntryDescription & {
         html?: boolean;
-      });
-  /**
-   * The output directory for the project. relative path to project e.g. ./dist
-   */
-  dist: string;
-  /**
-   * The port for the dev server., default: 3000
-   */
-  port?: number;
-  /**
-   * The proxy setting for the dev server.
-   */
-  proxy?: ProxyConfig;
-  /**
-   * The banner text for the project.
-   */
-  banner?: string;
-  /**
-   * jsx runtime,  React version before 16.14.0，pls set runtime 'classic'
-   * default:automatic
-   */
-  reactRuntime?: 'automatic' | 'classic';
-  /**
-   * Rsbuild configuration
-   */
-  rsConfig?: RsbuildConfig;
+    });
+    /**
+     * The output directory for the project.
+     * The default is `./dist`.
+     */
+    dist?: string;
+    /**
+     * The port for the dev server.
+     * The default is 3000
+     */
+    port?: number;
+    /**
+     * The proxy setting for the dev server.
+     */
+    proxy?: ProxyConfig;
+    /**
+     * The banner text.
+     */
+    banner?: string;
+    /**
+     * jsx runtime,  React version before 16.14.0，pls set runtime 'classic'
+     * The default is automatic
+     */
+    reactRuntime?: 'automatic' | 'classic';
+    /**
+     * Rsbuild configuration. please refer to https://rsbuild.dev/config/
+     */
+    rsConfig?: RsbuildConfig;
 };
 ```
 
