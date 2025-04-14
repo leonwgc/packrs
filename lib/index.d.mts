@@ -1,3 +1,5 @@
+import { RsbuildEntryDescription, ProxyConfig, RsbuildConfig } from '@rsbuild/core';
+
 /**
  * The entry point for the packrs module.
  *
@@ -12,7 +14,7 @@
  *
  * The available configuration options are documented below.
  */
-import type { ProxyConfig, RsbuildConfig, RsbuildEntryDescription } from '@rsbuild/core';
+
 /**
  * Parameters for the `build` and `run` functions.
  */
@@ -70,10 +72,11 @@ type Params = {
  * Executes the dev process for the project.
  * @param {Params} [config={}] - Configuration parameters for the dev process.
  */
-export declare function run(config: Params): Promise<void>;
+declare function run(config: Params): Promise<void>;
 /**
  * Executes the build process for the project.
  * @param {Params} [config={}] - Configuration parameters for the build process.
  */
-export declare function build(config: Params): Promise<void>;
-export {};
+declare function build(config: Params): Promise<void>;
+
+export { build, run };

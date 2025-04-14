@@ -4,10 +4,10 @@
   "description": "rsbuild for react",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
-  "typings": "./types/index.d.ts",
+  "typings": "./lib/index.d.ts",
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup && tsc"
+    "build": "tsup"
   },
   "tags": [
     "react",
