@@ -106,7 +106,7 @@ const getBuildConfig = ({
         },
       },
       output: {
-        cleanDistPath: true,
+        cleanDistPath: !dev,
         distPath: {
           root: dist,
         },
