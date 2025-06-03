@@ -1,19 +1,5 @@
+import * as _rspack_core from '@rspack/core';
 import { RsbuildEntryDescription, ProxyConfig, RsbuildConfig } from '@rsbuild/core';
-
-/**
- * The entry point for the packrs module.
- *
- * This module provides a set of functions for building and running a React
- * application using the rsbuild bundler.
- *
- * The module exports two functions: `build` and `run`. The `build` function
- * takes a set of configuration options and returns a promise that resolves when
- * the build is complete. The `run` function takes a set of configuration
- * options and returns a promise that resolves when the development server is
- * started.
- *
- * The available configuration options are documented below.
- */
 
 /**
  * Parameters for the `build` and `run` functions.
@@ -77,6 +63,9 @@ declare function run(config: Params): Promise<void>;
  * Executes the build process for the project.
  * @param {Params} [config={}] - Configuration parameters for the build process.
  */
-declare function build(config: Params): Promise<void>;
+declare function build(config: Params): Promise<{
+    close: () => Promise<void>;
+    stats?: _rspack_core.Stats | _rspack_core.MultiStats;
+}>;
 
 export { build, run };

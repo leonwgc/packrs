@@ -203,5 +203,5 @@ export async function build(config: Params) {
     }),
   });
 
-  rsbuildInstance.build();
+  return rsbuildInstance.build();
 }
