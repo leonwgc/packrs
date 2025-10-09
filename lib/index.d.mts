@@ -1,4 +1,4 @@
-import * as _rspack_core from '@rspack/core';
+import * as _rsbuild_core from '@rsbuild/core';
 import { RsbuildEntryDescription, ProxyConfig, RsbuildConfig } from '@rsbuild/core';
 
 /**
@@ -63,9 +63,6 @@ declare function run(config: Params): Promise<void>;
  * Executes the build process for the project.
  * @param {Params} [config={}] - Configuration parameters for the build process.
  */
-declare function build(config: Params): Promise<{
-    close: () => Promise<void>;
-    stats?: _rspack_core.Stats | _rspack_core.MultiStats;
-}>;
+declare function build(config: Params): Promise<_rsbuild_core.BuildResult>;
 
 export { build, run };
