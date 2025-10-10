@@ -119,7 +119,15 @@ const getBuildConfig = ({
             runtime: reactRuntime,
           },
         }),
-        sass ? pluginSass() : undefined,
+        sass
+          ? pluginSass({
+              sassLoaderOptions: {
+                sassOptions: {
+                  silenceDeprecations: ['import', 'color-functions', 'global-builtin'],
+                },
+              },
+            })
+          : undefined,
         less
           ? pluginLess({
               lessLoaderOptions: {
