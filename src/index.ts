@@ -123,7 +123,13 @@ const getBuildConfig = ({
           ? pluginSass({
               sassLoaderOptions: {
                 sassOptions: {
-                  silenceDeprecations: ['import', 'color-functions', 'global-builtin'],
+                  // silenceDeprecations: ['import', 'color-functions', 'global-builtin'],
+                  logger: {
+                    warn() {
+                      // disable sass deprecation warnings
+                      return;
+                    },
+                  },
                 },
               },
             })
