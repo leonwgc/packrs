@@ -1,6 +1,6 @@
 {
   "name": "packrs",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "rsbuild for react",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
@@ -23,14 +23,14 @@
   "author": "leonwgc",
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/core": "^1.6.1",
+    "@rsbuild/core": "^1.6.5",
     "@rsbuild/plugin-less": "^1.5.0",
-    "@rsbuild/plugin-react": "^1.4.1",
+    "@rsbuild/plugin-react": "^1.4.2",
     "@rsbuild/plugin-sass": "^1.4.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "tsup": "^8.5.0",
+    "@types/node": "^24.10.1",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   },
   "files": [
