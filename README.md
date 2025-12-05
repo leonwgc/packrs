@@ -1,24 +1,28 @@
-## Installation
+# packrs
+
+[English](./README.en.md) | [中文](./README.md)
+
+## 安装
 
 ```bash
 npm install packrs --save-dev
 yarn add -D packrs
 ```
 
-## Overview
+## 概述
 
-packrs is a Rust-based build tool that streamlines development for React projects. It leverages rsbuild to optimize and simplify the build process.
+packrs 是一个基于 Rust 的构建工具，旨在简化 React 项目的开发流程。它利用 rsbuild 来优化和简化构建过程。
 
-## Features
+## 特性
 
-- **Efficient Builds**: Powered by rsbuild for fast performance.
-- **React Support**: Built-in support for React SPAs.
-- **Customizable**: Tailor builds with plugins and scripts.
-- **Node.js API**: Exclusively supports Node.js API usage.
+- **高效构建**: 由 rsbuild 驱动，性能快速
+- **React 支持**: 内置支持 React 单页应用
+- **可定制**: 通过插件和脚本定制构建流程
+- **Node.js API**: 专注于 Node.js API 使用
 
-## Usage
+## 使用方法
 
-#### Development Mode
+#### 开发模式
 
 ```typescript
 const { run } = require('packrs');
@@ -29,9 +33,9 @@ run({
 });
 ```
 
-This will continuously watch for changes and rebuild the project automatically.
+这将持续监听文件变化并自动重新构建项目。
 
-#### Production mode
+#### 生产模式
 
 ```typescript
 const { build } = require('packrs');
@@ -42,7 +46,7 @@ build({
 });
 ```
 
-#### a more realistic config
+#### 更真实的配置示例
 
 ```js
 const { run } = require('packrs');
@@ -65,67 +69,67 @@ run({
       favicon: './src/assets/icons/favicon.ico',
     },
     resolve: {
-      aliasStrategy: 'prefer-tsconfig', // alias defined in tsconfig's paths
+      aliasStrategy: 'prefer-tsconfig', // 使用 tsconfig 中 paths 定义的别名
     },
   },
 });
 ```
 
-This command will execute the build process using rsbuild and output the files to the designated directory.
+此命令将使用 rsbuild 执行构建过程，并将文件输出到指定目录。
 
-## Why only support Node.js API?
+## 为什么只支持 Node.js API？
 
-To offer a flexible and customizable API, packrs supports only the Node.js API. This allows full use of rsbuild's capabilities, enabling custom build processes and plugins. A CLI would restrict customization and require assumptions about project structure, reducing API flexibility.
+为了提供灵活且可定制的 API，packrs 仅支持 Node.js API。这允许充分利用 rsbuild 的能力，支持自定义构建过程和插件。CLI 方式会限制定制性，并需要对项目结构做出假设，从而降低 API 的灵活性。
 
-## Type definitons
+## 类型定义
 
 ```typescript
 type Params = {
     /**
-     * Indicates if Less should be used.
-     * The default is `true`.
+     * 是否使用 Less
+     * 默认为 `true`
      */
     less?: boolean;
     /**
-     * Indicates if Sass should be used.
-     * The default is `true`.
+     * 是否使用 Sass
+     * 默认为 `true`
      */
     sass?: boolean;
     /**
-     * The entry file for the project. relative path to project.
-     * The default is `./src/index`.
+     * 项目入口文件，相对于项目的路径
+     * 默认为 `./src/index`
      */
     index?: string | string[] | (RsbuildEntryDescription & {
         html?: boolean;
     });
     /**
-     * The output directory for the project.
-     * The default is `./dist`.
+     * 项目输出目录
+     * 默认为 `./dist`
      */
     dist?: string;
     /**
-     * The port for the dev server.
-     * The default is 3000
+     * 开发服务器端口
+     * 默认为 3000
      */
     port?: number;
     /**
-     * The proxy setting for the dev server.
+     * 开发服务器代理设置
      */
     proxy?: ProxyConfig;
     /**
-     * The banner text.
+     * Banner 文本
      */
     banner?: string;
     /**
-     * jsx runtime,  React version before 16.14.0，pls set runtime 'classic'
-     * The default is automatic
+     * jsx 运行时，React 16.14.0 之前的版本请设置为 'classic'
+     * 默认为 automatic
      */
     reactRuntime?: 'automatic' | 'classic';
     /**
-     * Rsbuild configuration. please refer to https://rsbuild.dev/config/
+     * Rsbuild 配置，请参考 https://rsbuild.dev/config/
      */
     rsConfig?: RsbuildConfig;
 };
 ```
 
-for details configuration please refer to [rsbuild online documentation](https://rsbuild.dev/config/index)
+更多详细配置请参考 [rsbuild 在线文档](https://rsbuild.dev/config/index)
