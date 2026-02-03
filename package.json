@@ -1,6 +1,6 @@
 {
   "name": "packrs",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "rsbuild for react",
   "main": "./lib/index.js",
   "module": "./lib/index.mjs",
